@@ -1,0 +1,4 @@
+Django
+Pillow
+google-generativeai
+python-decouple

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>🏠 Dashboard - Your Road Assessments</h2>
+  <a href="{% url 'upload' %}" class="btn btn-primary">📤 Upload New Image</a>
+</div>
+
+{% if assessments %}
+<div class="card">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Image</th>
+            <th>Crack %</th>
+            <th>Score</th>
+            <th>Severity</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in assessments %}
+          <tr>
+            <td>
+              <img src="{{ a.image.url }}" alt="Road assessment thumbnail" class="rounded">
+            </td>
+            <td>{{ a.crack_percentage|floatformat:1|default:"—" }}%</td>
+            <td>
+              {% if a.condition_score %}
+                <span class="badge bg-{% if a.condition_score >= 70 %}success{% elif a.condition_score >= 40 %}warning{% else %}danger{% endif %}">
+                  {{ a.condition_score }}/100
+                </span>
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td>
+              {% if a.severity %}
+                <span class="badge bg-{% if a.severity == 'High' %}danger{% elif a.severity == 'Medium' %}warning{% else %}success{% endif %}">
+                  {{ a.severity }}
+                </span>
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td>{{ a.created_at|date:"M d, Y H:i" }}</td>
+            <td>
+              <span class="badge bg-{% if a.analysis_status == 'completed' %}success{% elif a.analysis_status == 'failed' %}danger{% elif a.analysis_status == 'analyzing' %}info{% else %}warning{% endif %}">
+                {{ a.get_analysis_status_display }}
+              </span>
+            </td>
+            <td>
+              <a href="{% url 'result' a.id %}" class="btn btn-sm btn-outline-primary">View Details</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="text-center py-5">
+  <div class="card">
+    <div class="card-body">
+      <h4>🚀 Welcome to ROADHealth AI!</h4>
+      <p class="text-muted">You haven't uploaded any road images yet.</p>
+      <a href="{% url 'upload' %}" class="btn btn-primary btn-lg">Upload Your First Image</a>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

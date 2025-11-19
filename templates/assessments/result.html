@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4>📸 Analyzed Image</h4>
+      </div>
+      <div class="card-body text-center">
+        <img src="{{ assessment.image.url }}" class="img-fluid rounded" alt="uploaded road image" style="max-height: 400px;">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="result-metrics">
+      <h4>📊 Analysis Results</h4>
+      {% if assessment.analysis_status == 'completed' %}
+        <div class="metric-card">
+          <strong>🔍 Crack Percentage:</strong> {{ assessment.crack_percentage|floatformat:1 }}%
+        </div>
+        <div class="metric-card">
+          <strong>🕳️ Pothole Probability:</strong> {{ assessment.pothole_probability|floatformat:2 }}
+        </div>
+        <div class="metric-card">
+          <strong>⚠️ Severity Level:</strong> 
+          <span class="badge bg-{% if assessment.severity == 'High' %}danger{% elif assessment.severity == 'Medium' %}warning{% else %}success{% endif %}">
+            {{ assessment.severity }}
+          </span>
+        </div>
+        <div class="metric-card">
+          <strong>📈 Condition Score:</strong> {{ assessment.condition_score }}/100
+          <div class="progress mt-2">
+            <div class="progress-bar {% if assessment.condition_score >= 70 %}bg-success{% elif assessment.condition_score >= 40 %}bg-warning{% else %}bg-danger{% endif %}" 
+                 style="width: {{ assessment.condition_score }}%"></div>
+          </div>
+          <small>{{ assessment.condition_description }}</small>
+        </div>
+      {% elif assessment.analysis_status == 'failed' %}
+        <div class="alert alert-danger">
+          <strong>❌ Analysis Failed</strong><br>
+          Unable to analyze the image. Please try again with a different image.
+        </div>
+      {% else %}
+        <div class="alert alert-info">
+          <strong>⏳ Analysis in Progress...</strong><br>
+          Please wait while we analyze your image.
+        </div>
+      {% endif %}
+    </div>
+    <div class="d-grid gap-2">
+      <a href="{% url 'upload' %}" class="btn btn-primary">Upload Another Image</a>
+      <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
