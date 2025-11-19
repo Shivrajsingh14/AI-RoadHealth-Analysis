@@ -328,14 +328,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Google Gemini AI** - Powerful vision analysis
 - **Django Team** - Excellent web framework
 - **Bootstrap** - Beautiful UI components
-- **Contributors** - Community support
+- **Contributors** - Shivraj singh Chundawat
 
 ## 📞 Support
 
-- 📧 **Email**: support@roadhealth-ai.com
+- 📧 **Email**: singhshivraj1408@gmail.com 
 - 💬 **Discord**: [Join our community](#)
 - 📖 **Docs**: [Full documentation](#)
-- 🐛 **Issues**: [Report bugs](https://github.com/yourusername/roadhealth-ai/issues)
+- 🐛 **Issues**: [Report bugs](https://github.com/Shivrajsingh14/roadhealth-ai/issues)
 
 ---
 
